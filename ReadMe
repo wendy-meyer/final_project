@@ -43,3 +43,8 @@ Ideas for the visual charts include, but are not limited to:
     1. Demographic data on positive/negative tweets (location of tweets, age range of positive/negative).
     2. Tableau dashboards containing some summary statistics on the training set used.
     3. Comparisons of positive vs. negative hashtags.
+    
+Pipeline:
+    1. Build a classification model on Databricks (our training/test data will live in a bucket on S3).
+    2. Build the website on Flask and host on Heroku. This will support the user lookup.
+    3. Create visualizations dynamically using plotly or d3. Maybe have Tableau for the training data since that's static.
