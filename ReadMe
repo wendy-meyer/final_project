@@ -15,8 +15,7 @@ Dataset Definitions:
 
     Testing Data    
         tweet_text - text of the tweet
-        tweet_sentiment - 
-        tweet_subjectivity - 
+        tweet_sentiment - positive or negative
         location - city where the user posting is at
         user_followers_count - Number of followers the poster has
         user_friends_count - Number of friends the poster has
@@ -29,6 +28,9 @@ Dataset Definitions:
         tweet_favorite_count - Number of times a tweet was marked as a favorite by users
         tweet_text_length - Character count of the tweet
         tweet_text_punc_count - Count of puncuation characters used in the tweet
+        
+The training dataset had an initial sentiment label based on a shorthand- namely, whether the tweet contained a smiley face or sad face. Smiley face was labeled
+as a positive sentiment, whereas sad face was labeled as negative.
     
 Model Use: Using ML for classification of the tweets whether they are positive or negative.
 
@@ -36,3 +38,8 @@ User Interaction:
     1. User enters website, and enters a hashtag to search
     2. Taking in the user input, an API call will be made to pull a set amount of tweets from that seach.
     3. Using the ML model to classify each tweet and showcase visual charts on the website for the user.
+    
+Ideas for the visual charts include, but are not limited to:
+    1. Demographic data on positive/negative tweets (location of tweets, age range of positive/negative).
+    2. Tableau dashboards containing some summary statistics on the training set used.
+    3. Comparisons of positive vs. negative hashtags.
