@@ -1,0 +1,38 @@
+Main Topic: Read tweets and determine if the tweets are positive or negative.
+
+Dataset: 
+    Training Data - https://www.kaggle.com/kazanova/sentiment140?select=training.1600000.processed.noemoticon.csv
+    Testing Data - Pulled from Twitter API, using the user's input item
+
+Dataset Definitions:
+    Training Data
+        target - polarity of tweet, 0 = negative and 4 = positive
+        id - unique id of the tweet from Twitter
+        date - timestamp when the tweet was posted
+        flag - query flag, all set to NO_QUERY
+        user - username of the person who posted to tweet
+        text - text of the tweet
+
+    Testing Data    
+        tweet_text - text of the tweet
+        tweet_sentiment - 
+        tweet_subjectivity - 
+        location - city where the user posting is at
+        user_followers_count - Number of followers the poster has
+        user_friends_count - Number of friends the poster has
+        user_account_age - Amount of time the account has been open on Twitter
+        user_verified - Binary if the user has been verified (True) or not (False)
+        user_favourites_count - Number of favorites the user has labeled
+        user_tweets - Total number of tweets the user has posted
+        tweet_retweeted - Binary field (True/False) showing if the post was retweeted (or shared)
+        tweet_retweet_count - Number of times the tweet has been retweeted (or shared)
+        tweet_favorite_count - Number of times a tweet was marked as a favorite by users
+        tweet_text_length - Character count of the tweet
+        tweet_text_punc_count - Count of puncuation characters used in the tweet
+    
+Model Use: Using ML for classification of the tweets whether they are positive or negative.
+
+User Interaction: 
+    1. User enters website, and enters a hashtag to search
+    2. Taking in the user input, an API call will be made to pull a set amount of tweets from that seach.
+    3. Using the ML model to classify each tweet and showcase visual charts on the website for the user.
