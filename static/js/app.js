@@ -1,7 +1,7 @@
-const dropdownMenu = d3.select("input-group");
-const userSearch = dropdownMenu.property("value");
+const userSearch = d3.select("input-group");
+// const userSearch = dropdownMenu.property("value");
 
-graphit(userSearch,'puppies');
+filterit('arrest');
 
 d3.selectAll("input-group").on("change", getData);
 // d3.selectAll("#selDatasetstate").on("change", getData);
@@ -12,58 +12,54 @@ function getData() {
     graphit(userSearch);
 }
 
-function graphit(userSearch) {
-    // Plotly.d3.csv("testing_data.csv", (err, rows) => {
-        
-    //     //Filter the data by the dropdown selections
-    //     const data = rows.filter(r => (r.state === stateSel && r.year === yearSel && r.party !== ""));
-    //     console.log("StateSel:");
-    //     console.log(stateSel);
-    //     console.log(rows.filter(r => (r.state === stateSel)));
+function filterit(userSearch) {
+    Plotly.d3.csv("testing_data.csv", (err, rows) => {
+        // var word_dict = {};
+        const tweets = rows.filter(r => (str.includes(r.userSearch) === 'True'));
+        console.log(tweets);
 
-        
-    //WORD CLOUD SCRIPT
-    var myWords = [{word: "Running", size: "10"}, {word: "Surfing", size: "20"}, {word: "Climbing", size: "50"}, {word: "Kiting", size: "30"}, {word: "Sailing", size: "20"}, {word: "Snowboarding", size: "60"} ]
+        // function count(rows.stemmed_tweet) {
+            // var obj = {};
+            
+            // str.split(" ").forEach(function(el, i, arr) {
+            //   obj[el] = obj[el] ? ++obj[el] : 1;
+            // });
+            
+            // return obj;
+          })
+          
+        //   console.log(count("olly olly in come free"));
+    } 
 
-    // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 10, bottom: 10, left: 10},
-        width = 450 - margin.left - margin.right,
-        height = 450 - margin.top - margin.bottom;
-
-    // append the svg object to the body of the page
-    var svg = d3.select("#my_dataviz").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
-
-    // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
-    // Wordcloud features that are different from one word to the other must be here
-    var layout = d3.layout.cloud()
-    .size([width, height])
-    .words(myWords.map(function(d) { return {text: d.word, size:d.size}; }))
-    .padding(5)        //space between words
-    .rotate(function() { return ~~(Math.random() * 2) * 90; })
-    .fontSize(function(d) { return d.size; })      // font size of words
-    .on("end", draw);
-    layout.start();
-
-    // This function takes the output of 'layout' above and draw the words
-    // Wordcloud features that are THE SAME from one word to the other can be here
-    function draw(words) {
-    svg
-        .append("g")
-        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-        .selectAll("text")
-            .data(words)
-        .enter().append("text")
-            .style("font-size", function(d) { return d.size; })
-            .style("fill", "#69b3a2")
-            .attr("text-anchor", "middle")
-            .style("font-family", "Impact")
-            .attr("transform", function(d) {
-            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-            })
-            .text(function(d) { return d.text; });
-    }
+anychart.onDocumentReady(function() {
+    var data = [
+        {"x": "Mandarin chinese", "value": 1090000000, category: "Sino-Tibetan"},
+        {"x": "English", "value": 983000000, category: "Indo-European"},
+        {"x": "Hindustani", "value": 544000000, category: "Indo-European"},
+        {"x": "Spanish", "value": 527000000, category: "Indo-European"},
+        {"x": "Arabic", "value": 422000000, category: "Afro-Asiatic"},
+        {"x": "Malay", "value": 281000000, category: "Austronesian"},
+        {"x": "Russian", "value": 267000000, category: "Indo-European"},
+        {"x": "Bengali", "value": 261000000, category: "Indo-European"},
+        {"x": "Portuguese", "value": 229000000, category: "Indo-European"},
+        {"x": "French", "value": 229000000, category: "Indo-European"},
+        {"x": "Hausa", "value": 150000000, category: "Afro-Asiatic"},
+        {"x": "Punjabi", "value": 148000000, category: "Indo-European"},
+        {"x": "Japanese", "value": 129000000, category: "Japonic"},
+        {"x": "German", "value": 129000000, category: "Indo-European"},
+        {"x": "Persian", "value": 121000000, category: "Indo-European"}
+    ];
+    // create a tag (word) cloud chart
+    var chart = anychart.tagCloud(data);
+    // set a chart title
+    chart.title('15 most spoken languages')
+    // set an array of angles at which the words will be laid out
+    chart.angles([0])
+    // enable a color range
+    chart.colorRange(true);
+    // set the color range length
+    chart.colorRange().length('80%');
+    // display the word cloud chart
+    chart.container("container");
+    chart.draw();
+    });
