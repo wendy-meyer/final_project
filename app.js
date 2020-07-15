@@ -1,22 +1,23 @@
-var userSearch = d3.select("input-group");
-console.log(userSearch);
-// const userSearch = dropdownMenu.property("value");
-var tbody = d3.select("tbody");
-filterit('Chelsea');
+// var userSearch = d3.select("input-group");
+// console.log(userSearch);
 
-d3.select(".input-group").on("click", getData);
+var tbody = d3.select("tbody");
+
+// filterit('Chelsea');
+d3.select("#filters").on("change", getData);
+
 
 
 function getData() {
-    var userSearch = d3.select("#input-group");
+    var userSearch = d3.selectAll("#filters").node().value;
     // var userSearch = dropdownMenu.property("value");
     console.log('Running getData');
+    console.log(userSearch);
     filterit(userSearch);
 }
 
 function filterit(userSearch) {
     Plotly.d3.csv("testing_data2.csv", (err, rows) => {
-        console.log(userSearch);
         //Filters the tweets that contain the word the user put in the seach bar.
         var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true));
         var dict = [];
@@ -48,7 +49,7 @@ function filterit(userSearch) {
         })
         //Puts the results into a dictionary format that anychart can read to make the word cloud
         Object.entries(obj).forEach(function ([key, value]) {
-            console.log(`${key} ${value}`)
+            // console.log(`${key} ${value}`)
             dict.push({
                 x: key,
                 value: value
