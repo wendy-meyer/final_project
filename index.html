@@ -59,16 +59,24 @@
         <hr>
         <h2>Tweet Analysis</h2>
 
-        <form>
           <div class="input-group" >
             <input type="text" class="form-control"  id="filters" placeholder="Type in a hashtag to search for">
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="submit">
+              <button onclick="return getData()" class="btn btn-default" type="button">
                 <i class="glyphicon glyphicon-search"></i>
               </button>
-            </div>
+            </input>
           </div>
-        </form>
+          <!-- <div>
+            <div class="pull-left" id="filters" style="margin-right:5px">
+                <button type="button" class="btn">Delete</button>
+            </div>
+            <div>
+                <div class="input-group" id="filters">
+                    <input type="text"  class="form-control" value="1" />
+                    <span class="input-group-addon">Update</span>
+                </div>
+            </div>
+        </div> -->
 
         <div id="cloud" style="height: 750px;">
 

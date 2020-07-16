@@ -1,19 +1,25 @@
 // var userSearch = d3.select("input-group");
 // console.log(userSearch);
-
+console.log("Hello");
 var tbody = d3.select("tbody");
+var cloud = d3.select("#cloud");
+var filters = d3.select("#filters");
 
 // filterit('Chelsea');
-d3.select("#filters").on("change", getData);
 
+// d3.event.preventDefault();
 
 
 function getData() {
+    // d3.event.preventDefault()
     var userSearch = d3.selectAll("#filters").node().value;
+    // d3.event.preventDefault();
+    // d3.selectAll("#filters").html("");
     // var userSearch = dropdownMenu.property("value");
     console.log('Running getData');
     console.log(userSearch);
     filterit(userSearch);
+    
 }
 
 function filterit(userSearch) {
@@ -55,22 +61,41 @@ function filterit(userSearch) {
                 value: value
             })
         })
-        //Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
-        anychart.onDocumentReady(function () {
-            // create a tag (word) cloud chart
-            var chart = anychart.tagCloud(dict);
-            // set a chart title
-            chart.title('Most common used words')
-            // set an array of angles at which the words will be laid out
-            chart.angles([0])
-            chart.container("cloud");
-            // configure the visual settings of the chart
-            chart.normal().fill("#1fadad");
-            chart.hovered().fill("#93bfec");
-            chart.selected().fill("#1f66ad");
-            chart.normal().fontWeight(600);
-            chart.draw();
-        });
+        // d3.selectAll("#filters").on("change", getData);
+        wordCloud(dict);
+        
     })
 }
+
+//Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
+function wordCloud (dict) {
+    cloud.html("");
+    console.log(dict);
+    // create a tag (word) cloud chart
+    var chart = anychart.tagCloud(dict);
+    // set a chart title
+    chart.title('Most common used words')
+    // set an array of angles at which the words will be laid out
+    chart.angles([0])
+    chart.container("cloud");
+    // configure the visual settings of the chart
+    chart.normal().fill("#1fadad");
+    chart.hovered().fill("#93bfec");
+    chart.selected().fill("#1f66ad");
+    chart.normal().fontWeight(600);
+    chart.draw();
+};
+
+// d3.selectAll("#filters").on("change", getData);
+d3.selectAll("#filters").on("click", getData);
+
+// Execute a function when the user releases a key on the keyboard
+
+document.addEventListener('keypress', event => {
+    if (event.keyCode == 13){
+        console.log('enter pressed')
+        getData()
+    }
+})
+
 
