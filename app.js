@@ -33,6 +33,13 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         })
         console.log(sentiments);
 
+        // var users = {};
+        // tweets.forEach(function(object){
+        //     console.log(object);
+        //     users[object] = users[object] ? ++users[object] : 1;
+        // })
+        // console.log(users);
+
         //Create the pie chart
         const trace = [{
             type: 'pie',
@@ -48,23 +55,23 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         }
         Plotly.newPlot('pie', trace, layout1)
 
-        //Create the bar chart
-        const trace2 = [{
-            type: 'bar',
-            x: data.map(d => d.tidy_tweets),
-            y: data.map(d => d.user),
-            orientation: 'h'
-        }]
-        const layout2 = {
-            autosize: true,
-            title: "Tweets by User",
-            width: 1000,
-            height: 600,
-            yaxis: {
-                automargin: true
-              }
-        }
-        Plotly.newPlot('bar', trace2, layout2)
+        // //Create the bar chart
+        // const trace2 = [{
+        //     type: 'bar',
+        //     x: tweets.map(d => d.user),
+        //     y: tweets.map(d => d.tidy_tweets),
+        //     orientation: 'h'
+        // }]
+        // const layout2 = {
+        //     autosize: true,
+        //     title: "Tweets by User",
+        //     width: 1000,
+        //     height: 600,
+        //     yaxis: {
+        //         automargin: true
+        //       }
+        // }
+        // Plotly.newPlot('bar', trace2, layout2)
 
         // Complete the event handler function for the form
             function runEnter(tweets) {

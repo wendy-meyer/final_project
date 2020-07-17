@@ -7,14 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
   <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
   <link rel="stylesheet" href="static/css/style.css" media="screen">
-
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
 
@@ -34,11 +32,6 @@
           <img src="/static/images/Twitter_Logo_Blue.png" width="30"
             height="30" alt="">
         </a>
-        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>  
-      </button> -->
 
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
@@ -67,29 +60,17 @@
               </button>
             </input>
           </div>
-          <!-- <div>
-            <div class="pull-left" id="filters" style="margin-right:5px">
-                <button type="button" class="btn">Delete</button>
-            </div>
-            <div>
-                <div class="input-group" id="filters">
-                    <input type="text"  class="form-control" value="1" />
-                    <span class="input-group-addon">Update</span>
-                </div>
-            </div>
-        </div> -->
 
         <div id="cloud" style="height: 750px;">
 
         </div>
 
         <div class="row">
-          <div class="col-lg-6" id="pie">chart 1</div>
-          <div class="col-lg-6" id="bar">chart 2</div>
+          <div class="col-lg-12" style="text-align:center" id="pie"></div>
+          <!-- <div class="col-lg-6" id="bar">chart 2</div> -->
         </div>
 
         <div class="row">
-          <!-- <div class="col-lg-6">chart 1</div> -->
           <div class="col-lg-12">
             <div id="table-area" class="">
               <table id="tweet-table" class="table table-striped">
