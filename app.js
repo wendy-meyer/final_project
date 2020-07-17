@@ -1,24 +1,16 @@
-// var userSearch = d3.select("input-group");
-// console.log(userSearch);
-console.log("Hello");
 var tbody = d3.select("tbody");
 var cloud = d3.select("#cloud");
 var filters = d3.select("#filters");
 
 filterit('data');
 
-// d3.event.preventDefault();
-
 
 function getData() {
-    // d3.event.preventDefault()
     var userSearch = d3.selectAll("#filters").node().value;
     var userSearch_lower = userSearch.toLowerCase();
     var userSearch_upper = userSearch.toUpperCase();
     var userSearch_Capital = userSearch.charAt(0).toUpperCase() + userSearch.slice(1)
-    // d3.event.preventDefault();
-    // d3.selectAll("#filters").html("");
-    // var userSearch = dropdownMenu.property("value");
+
     console.log('Running getData');
     console.log(userSearch);
     filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital);
@@ -31,24 +23,17 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true)||((r.tidy_tweet).includes(userSearch_upper) === true)||((r.tidy_tweet).includes(userSearch_lower) === true)||((r.tidy_tweet).includes(userSearch_Capital) === true));
         var dict = [];
         var obj = {};
-        // var sentiments = []
 
         console.log(tweets);
-        // console.log(Object.keys(tweets).length);
 
-        // var positive_tweets = rows.filter(r => ((r.sentiment)=== 1));
-        // var negative_tweets = rows.filter(r => ((r.sentiment)=== -1));
-        // var neutral_tweets = rows.filter(r => ((r.sentiment)=== 0));
-
-        // var pos_num = Object.keys(positive_tweets).length;
-        // var neg_num = Object.keys(negative_tweets).length;
-        // var neu_num = Object.keys(neutral_tweets).length;
+        //Create a dictionary to count the number of sentiments for the pie chart.
         var sentiments = {"-1":0,"0":0,"1":0}
         tweets.forEach(function(object){
             sentiments[object.sentiment.toString()] += 1
         })
         console.log(sentiments);
 
+        //Create the pie chart
         const trace = [{
             type: 'pie',
             values: Object.values(sentiments),
@@ -62,38 +47,25 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             height: 500
         }
         Plotly.newPlot('pie', trace, layout1)
-        
 
-        // var sentiments 
+        //Create the bar chart
+        const trace2 = [{
+            type: 'bar',
+            x: data.map(d => d.tidy_tweets),
+            y: data.map(d => d.user),
+            orientation: 'h'
+        }]
+        const layout2 = {
+            autosize: true,
+            title: "Tweets by User",
+            width: 1000,
+            height: 600,
+            yaxis: {
+                automargin: true
+              }
+        }
+        Plotly.newPlot('bar', trace2, layout2)
 
-        // tweets.forEach((tweet) => {
-        //     Object.entries(tweet).forEach(([key, value]) => {
-        //         // console.log(key);
-        //         // console.log(value);
-        //         if (value === 1){
-        //             // sentiments.push({
-        //             //     x: 'Positive',
-        //             //     value: +1
-        //             // })
-        //             console.log("Positive tweet");
-        //         }
-        //         else if (value === -1){
-        //             // sentiments.push({
-        //             //     x: 'Negative',
-        //             //     value: +1
-        //             // })
-        //         }
-        //         else {
-        //             sentiments.push({
-        //                 x: 'Neutral',
-        //                 value: +1
-        //             })
-        //         }
-        //     })
-        // })
-        // console.log(sentiments);
-
-        //NEED Enter a 'table summary' that shows the top 5 results from the filtered tweets.
         // Complete the event handler function for the form
             function runEnter(tweets) {
                 tbody.html("");
@@ -107,7 +79,6 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
                 });
             }
             runEnter(tweets);
-        //NEED Enter a dictionary for counting the number of tweets for each sentiment. 
 
         //Walks through the filtered tweets and counts how many times each word was used across all tweets.
         tweets.forEach(function (message, i, arr) {
