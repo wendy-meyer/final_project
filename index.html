@@ -31,7 +31,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand sticky-top" href="#">
-          <img src="https://static01.nyt.com/images/2014/08/10/magazine/10wmt/10wmt-superJumbo-v4.jpg" width="30"
+          <img src="/static/images/Twitter_Logo_Blue.png" width="30"
             height="30" alt="">
         </a>
         <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -54,14 +54,15 @@
     <div class="row content">
 
       <div class="col-lg-8 text-left" style="height: 750px;">
-        <h1>Welcome</h1>
-        <p>Our goal is to use Machine Learning to analyze tweets and decide if they are positive or negative.</p>
-        <hr>
-        <h2>Tweet Analysis</h2>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4"></h1>
+          </div>
+        </div>
 
           <div class="input-group" >
             <input type="text" class="form-control"  id="filters" placeholder="Type in a hashtag to search for">
-              <button onclick="return getData()" class="btn btn-default" type="button">
+              <button onclick="return getData()" id="srchbtn" class="btn btn-default" type="button">
                 <i class="glyphicon glyphicon-search"></i>
               </button>
             </input>
@@ -113,16 +114,15 @@
 
       </div>
       <div class="col-lg-4 sidenav">
-        <div class="well">
-          <img src="images/roadmap.jpg" alt="Cinque Terre" width="475" height="700">
-        </div>
+          <img src="/static/images/roadmap.jpg" alt="workflow" width="100%" height="700">
       </div>
     </div>
   </div>
 
-  <footer class="container-fluid text-center fixed-bottom">
-    <p>Created by Benji, Margeaux, Ray, and Wendy</p>
-  </footer>
+
+  <!-- <footer class="fixed-bottom">
+    <p>Created by Benji, Wendy, Ray & Margeaux</p>
+  </footer> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js "></script>
   <script type="text/javascript " src="app.js"></script>
 

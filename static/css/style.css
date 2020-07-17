@@ -1,5 +1,26 @@
 .jumbotron {
-    text-align: center;
+    text-align: left;
+    background-image: url("/static/images/twitterBanner2.png");
+    height: 300px;
+    background-repeat: no-repeat;
+    background-size: 70% 100%;
+    background-position: left;
+    background-color: white;
+    margin-left: 100px;
+
+}
+
+* {
+  box-sizing: border-box;
+}
+
+div.input-group input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 800px;
+  background: #f1f1f1;
 }
 /* Remove the navbar's default margin-bottom and rounded borders */ 
 .navbar {
@@ -12,9 +33,8 @@
   
   /* Set gray background color and 100% height */
   .sidenav {
-    padding-top: 20px;
+    padding-top: 10px;
     background-color: #f1f1f1;
-    height: 100%;
   }
 
   #container {
