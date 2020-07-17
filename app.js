@@ -5,7 +5,7 @@ var tbody = d3.select("tbody");
 var cloud = d3.select("#cloud");
 var filters = d3.select("#filters");
 
-// filterit('Chelsea');
+filterit('data');
 
 // d3.event.preventDefault();
 
@@ -13,22 +13,85 @@ var filters = d3.select("#filters");
 function getData() {
     // d3.event.preventDefault()
     var userSearch = d3.selectAll("#filters").node().value;
+    var userSearch_lower = userSearch.toLowerCase();
+    var userSearch_upper = userSearch.toUpperCase();
+    var userSearch_Capital = userSearch.charAt(0).toUpperCase() + userSearch.slice(1)
     // d3.event.preventDefault();
     // d3.selectAll("#filters").html("");
     // var userSearch = dropdownMenu.property("value");
     console.log('Running getData');
     console.log(userSearch);
-    filterit(userSearch);
+    filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital);
     
 }
 
-function filterit(userSearch) {
+function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital) {
     Plotly.d3.csv("testing_data2.csv", (err, rows) => {
         //Filters the tweets that contain the word the user put in the seach bar.
-        var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true));
+        var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true)||((r.tidy_tweet).includes(userSearch_upper) === true)||((r.tidy_tweet).includes(userSearch_lower) === true)||((r.tidy_tweet).includes(userSearch_Capital) === true));
         var dict = [];
         var obj = {};
+        // var sentiments = []
+
         console.log(tweets);
+        // console.log(Object.keys(tweets).length);
+
+        // var positive_tweets = rows.filter(r => ((r.sentiment)=== 1));
+        // var negative_tweets = rows.filter(r => ((r.sentiment)=== -1));
+        // var neutral_tweets = rows.filter(r => ((r.sentiment)=== 0));
+
+        // var pos_num = Object.keys(positive_tweets).length;
+        // var neg_num = Object.keys(negative_tweets).length;
+        // var neu_num = Object.keys(neutral_tweets).length;
+        var sentiments = {"-1":0,"0":0,"1":0}
+        tweets.forEach(function(object){
+            sentiments[object.sentiment.toString()] += 1
+        })
+        console.log(sentiments);
+
+        const trace = [{
+            type: 'pie',
+            values: Object.values(sentiments),
+            labels: ["Neutral", "Positive", "Negative"],
+            showlegend: true
+        }]
+        const layout1 = {
+            autosize: true,
+            title: "Pie Chart",
+            width: 500,
+            height: 500
+        }
+        Plotly.newPlot('pie', trace, layout1)
+        
+
+        // var sentiments 
+
+        // tweets.forEach((tweet) => {
+        //     Object.entries(tweet).forEach(([key, value]) => {
+        //         // console.log(key);
+        //         // console.log(value);
+        //         if (value === 1){
+        //             // sentiments.push({
+        //             //     x: 'Positive',
+        //             //     value: +1
+        //             // })
+        //             console.log("Positive tweet");
+        //         }
+        //         else if (value === -1){
+        //             // sentiments.push({
+        //             //     x: 'Negative',
+        //             //     value: +1
+        //             // })
+        //         }
+        //         else {
+        //             sentiments.push({
+        //                 x: 'Neutral',
+        //                 value: +1
+        //             })
+        //         }
+        //     })
+        // })
+        // console.log(sentiments);
 
         //NEED Enter a 'table summary' that shows the top 5 results from the filtered tweets.
         // Complete the event handler function for the form
@@ -56,6 +119,8 @@ function filterit(userSearch) {
         //Puts the results into a dictionary format that anychart can read to make the word cloud
         Object.entries(obj).forEach(function ([key, value]) {
             // console.log(`${key} ${value}`)
+            // key= key.toLowerCase();
+            // console.log(key);
             dict.push({
                 x: key,
                 value: value
@@ -64,13 +129,14 @@ function filterit(userSearch) {
         // d3.selectAll("#filters").on("change", getData);
         wordCloud(dict);
         
+        
     })
 }
 
 //Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
 function wordCloud (dict) {
     cloud.html("");
-    console.log(dict);
+    // console.log(dict);
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(dict);
     // set a chart title
@@ -86,8 +152,8 @@ function wordCloud (dict) {
     chart.draw();
 };
 
-// d3.selectAll("#filters").on("change", getData);
-d3.selectAll("#filters").on("click", getData);
+d3.selectAll("#filters").on("change", getData);
+// d3.selectAll("#filters").on("click", getData);
 
 // Execute a function when the user releases a key on the keyboard
 
