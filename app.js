@@ -2,6 +2,7 @@ var tbody = d3.select("tbody");
 var pos_cloud = d3.select("#positive_cloud");
 var neg_cloud = d3.select("#negative_cloud");
 var filters = d3.select("#filters");
+var input = document.getElementById("filters");
 
 filterit('data');
 
@@ -57,8 +58,8 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         }]
         const layout1 = {
             autosize: true,
-            title: "Pie Chart",
-            width: 500,
+            title: "Sentiment Distribution",
+            width: 1200,
             height: 500
         }
         Plotly.newPlot('pie', trace, layout1)
@@ -133,13 +134,13 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
                 value: value
             })
         })
-        wordCloud(pos_dict, "positive_cloud", "Most common works within Positive Tweets","green", pos_cloud);
-        wordCloud(neg_dict, "negative_cloud", "Most common works within Negative Tweets", "red", neg_cloud);
+        wordCloud(pos_dict, "positive_cloud", "Most common words within Positive Tweets","#C5F2C8","67EE70" , pos_cloud);
+        wordCloud(neg_dict, "negative_cloud", "Most common words within Negative Tweets", "EB9F9F", "E56363", neg_cloud);
     })
 }
 
 //Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
-function wordCloud (dict, cloudtype, title, color, id) {
+function wordCloud (dict, cloudtype, title, color1, color2, id) {
     id.html("");
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(dict);
@@ -147,9 +148,20 @@ function wordCloud (dict, cloudtype, title, color, id) {
     chart.title(title)
     // set an array of angles at which the words will be laid out
     chart.angles([0])
+    // set text spacing
+    chart.textSpacing(3);  
     chart.container(cloudtype);
     // configure the visual settings of the chart
-    chart.normal().fill(color);
+    // create and configure a color scale.
+    var customColorScale = anychart.scales.linearColor();
+    customColorScale.colors([color1, color2]);
+
+    // set the color scale as the color scale of the chart
+    chart.colorScale(customColorScale);
+
+    // add a color range
+    // chart.colorRange().enabled(true);
+    // chart.normal().fill(color);
     chart.hovered().fill("#93bfec");
     chart.selected().fill("#1f66ad");
     chart.normal().fontWeight(600);
@@ -160,7 +172,7 @@ d3.selectAll("#filters").on("change", getData);
 // d3.selectAll("#filters").on("click", getData);
 
 // Execute a function when the user releases a key on the keyboard
-// document.addEventListener('keyup', fucntion(event){
+// input.addEventListener("keyup", function(event){
 //     if (event.keyCode === 13){
 //         event.preventDefault();
 //         document.getElementById("srchbtn");

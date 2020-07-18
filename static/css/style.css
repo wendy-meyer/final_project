@@ -40,13 +40,14 @@ div.input-group input[type=text] {
   }
   
   /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-  .row.content {height: 1000px}
+  /* .row.content {height: 1000px} */
+  .row.content {height: 100%}
   
   /* Set gray background color and 100% height */
   .sidenav {
     padding-top: 2px;
     background-color: #f1f1f1;
-    height: 1050;
+    height: 100%;
   }
 
   #container {
@@ -59,6 +60,30 @@ div.input-group input[type=text] {
 #intro{
   text-align: center;
 }
+
+/* #positive_cloud{
+  width: 40%;
+  height: 40%;
+  padding: 5px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+} */
+#positive_cloud{
+  float: left;
+  width: 50%;
+  height: 100%;
+
+}
+
+#negative_cloud{
+  float: right;
+  width: 50%;
+  height: 100%;
+}
+
   
   /* Set black background color, white text and some padding */
   footer {
