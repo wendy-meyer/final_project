@@ -32,6 +32,7 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         //Varaibles needed for wordCloud
         var pos_dict =[];
         var neg_dict =[];
+
         var pos_obj = {};
         var neg_obj = {};
 
@@ -159,6 +160,14 @@ d3.selectAll("#filters").on("change", getData);
 // d3.selectAll("#filters").on("click", getData);
 
 // Execute a function when the user releases a key on the keyboard
+// document.addEventListener('keyup', fucntion(event){
+//     if (event.keyCode === 13){
+//         event.preventDefault();
+//         document.getElementById("srchbtn");
+//         console.log('enter pressed');
+//         getData()
+//     }
+// });
 document.addEventListener('keypress', event => {
     if (event.keyCode == 13){
         console.log('enter pressed')
