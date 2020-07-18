@@ -21,8 +21,20 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
     Plotly.d3.csv("testing_data2.csv", (err, rows) => {
         //Filters the tweets that contain the word the user put in the seach bar.
         var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true)||((r.tidy_tweet).includes(userSearch_upper) === true)||((r.tidy_tweet).includes(userSearch_lower) === true)||((r.tidy_tweet).includes(userSearch_Capital) === true));
+        var positive_tweets = tweets.filter(function(tweet){
+            return tweet.sentiment ==1;
+        });
+        var negative_tweets = tweets.filter(function(tweet){
+            return tweet.sentiment ==-1;
+        });
+        
         var dict = [];
+        var pos_dict =[];
+        var neg_dict =[];
+
         var obj = {};
+        var pos_obj = {};
+        var neg_obj = {};
 
         console.log(tweets);
 
@@ -32,13 +44,6 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             sentiments[object.sentiment.toString()] += 1
         })
         console.log(sentiments);
-
-        // var users = {};
-        // tweets.forEach(function(object){
-        //     console.log(object);
-        //     users[object] = users[object] ? ++users[object] : 1;
-        // })
-        // console.log(users);
 
         //Create the pie chart
         const trace = [{
@@ -73,7 +78,7 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         // }
         // Plotly.newPlot('bar', trace2, layout2)
 
-        // Complete the event handler function for the form
+        // TABLE Complete the event handler function for the form
             function runEnter(tweets) {
                 tbody.html("");
                 //Show the table 
@@ -94,36 +99,56 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
                 obj[el] = obj[el] ? ++obj[el] : 1;
             })
         })
+        positive_tweets.forEach(function (message, i, arr) {
+            var text = arr[i]['tidy_tweet']
+            text.split(" ").forEach(function (el, i, arr) {
+                pos_obj[el] = pos_obj[el] ? ++pos_obj[el] : 1;
+            })
+        })
+        negative_tweets.forEach(function (message, i, arr) {
+            var text = arr[i]['tidy_tweet']
+            text.split(" ").forEach(function (el, i, arr) {
+                neg_obj[el] = neg_obj[el] ? ++neg_obj[el] : 1;
+            })
+        })
         //Puts the results into a dictionary format that anychart can read to make the word cloud
         Object.entries(obj).forEach(function ([key, value]) {
-            // console.log(`${key} ${value}`)
-            // key= key.toLowerCase();
-            // console.log(key);
             dict.push({
                 x: key,
                 value: value
             })
         })
-        // d3.selectAll("#filters").on("change", getData);
-        wordCloud(dict);
-        
-        
+        Object.entries(pos_obj).forEach(function ([key, value]) {
+            pos_dict.push({
+                x: key,
+                value: value
+            })
+        })
+        Object.entries(neg_obj).forEach(function ([key, value]) {
+            neg_dict.push({
+                x: key,
+                value: value
+            })
+        })
+        wordCloud(pos_dict, "positive_cloud", "Most common works within Positive Tweets","green");
+        wordCloud(neg_dict, "negative_cloud", "Most common works within Negative Tweets", "red");
     })
 }
 
 //Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
-function wordCloud (dict) {
+function wordCloud (dict, cloudtype, title, color) {
     cloud.html("");
+
     // console.log(dict);
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(dict);
     // set a chart title
-    chart.title('Most common used words')
+    chart.title(title)
     // set an array of angles at which the words will be laid out
     chart.angles([0])
-    chart.container("cloud");
+    chart.container(cloudtype);
     // configure the visual settings of the chart
-    chart.normal().fill("#1fadad");
+    chart.normal().fill(color);
     chart.hovered().fill("#93bfec");
     chart.selected().fill("#1f66ad");
     chart.normal().fontWeight(600);
@@ -134,7 +159,6 @@ d3.selectAll("#filters").on("change", getData);
 // d3.selectAll("#filters").on("click", getData);
 
 // Execute a function when the user releases a key on the keyboard
-
 document.addEventListener('keypress', event => {
     if (event.keyCode == 13){
         console.log('enter pressed')
