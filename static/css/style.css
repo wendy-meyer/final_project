@@ -1,4 +1,4 @@
-.jumbotron {
+/* .jumbotron {
     text-align: left;
     background-image: url("/static/images/twitterBanner2.png");
     height: 300px;
@@ -7,6 +7,18 @@
     background-position: left;
     background-color: white;
     margin-left: 100px;
+
+} */
+.jumbotron {
+  width: 1000px;
+  height: 300px;
+  background-image: url("/static/images/twitterBanner2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: 70% 100%;
+  background-position: left;
+  background-color: white;
+  margin-left: 60px;
 
 }
 
