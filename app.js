@@ -29,11 +29,9 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             return tweet.sentiment ==-1;
         });
         
-        var dict = [];
+        //Varaibles needed for wordCloud
         var pos_dict =[];
         var neg_dict =[];
-
-        var obj = {};
         var pos_obj = {};
         var neg_obj = {};
 
@@ -97,12 +95,7 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             runEnter(tweets);
 
         //Walks through the filtered tweets and counts how many times each word was used across all tweets.
-        // tweets.forEach(function (message, i, arr) {
-        //     var text = arr[i]['tidy_tweet']
-        //     text.split(" ").forEach(function (el, i, arr) {
-        //         obj[el] = obj[el] ? ++obj[el] : 1;
-        //     })
-        // })
+        
         positive_tweets.forEach(function (message, i, arr) {
             var text = arr[i]['tidy_tweet']
             text.split(" ").forEach(function (el, i, arr) {
@@ -116,12 +109,15 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             })
         })
         //Puts the results into a dictionary format that anychart can read to make the word cloud
+
+        ////Version with all the sentiments in one.
         // Object.entries(obj).forEach(function ([key, value]) {
         //     dict.push({
         //         x: key,
         //         value: value
         //     })
         // })
+
         //positive version
         Object.entries(pos_obj).forEach(function ([key, value]) {
             pos_dict.push({
@@ -144,8 +140,6 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
 //Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
 function wordCloud (dict, cloudtype, title, color, id) {
     id.html("");
-
-    // console.log(dict);
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(dict);
     // set a chart title
