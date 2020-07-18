@@ -1,36 +1,78 @@
-// var userSearch = d3.select("input-group");
-// console.log(userSearch);
-console.log("Hello");
 var tbody = d3.select("tbody");
 var cloud = d3.select("#cloud");
 var filters = d3.select("#filters");
 
-// filterit('Chelsea');
-
-// d3.event.preventDefault();
+filterit('data');
 
 
 function getData() {
-    // d3.event.preventDefault()
     var userSearch = d3.selectAll("#filters").node().value;
-    // d3.event.preventDefault();
-    // d3.selectAll("#filters").html("");
-    // var userSearch = dropdownMenu.property("value");
+    var userSearch_lower = userSearch.toLowerCase();
+    var userSearch_upper = userSearch.toUpperCase();
+    var userSearch_Capital = userSearch.charAt(0).toUpperCase() + userSearch.slice(1)
+
     console.log('Running getData');
     console.log(userSearch);
-    filterit(userSearch);
+    filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital);
     
 }
 
-function filterit(userSearch) {
+function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital) {
     Plotly.d3.csv("testing_data2.csv", (err, rows) => {
         //Filters the tweets that contain the word the user put in the seach bar.
-        var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true));
+        var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true)||((r.tidy_tweet).includes(userSearch_upper) === true)||((r.tidy_tweet).includes(userSearch_lower) === true)||((r.tidy_tweet).includes(userSearch_Capital) === true));
         var dict = [];
         var obj = {};
+
         console.log(tweets);
 
-        //NEED Enter a 'table summary' that shows the top 5 results from the filtered tweets.
+        //Create a dictionary to count the number of sentiments for the pie chart.
+        var sentiments = {"-1":0,"0":0,"1":0}
+        tweets.forEach(function(object){
+            sentiments[object.sentiment.toString()] += 1
+        })
+        console.log(sentiments);
+
+        // var users = {};
+        // tweets.forEach(function(object){
+        //     console.log(object);
+        //     users[object] = users[object] ? ++users[object] : 1;
+        // })
+        // console.log(users);
+
+        //Create the pie chart
+        const trace = [{
+            type: 'pie',
+            values: Object.values(sentiments),
+            labels: ["Neutral", "Positive", "Negative"],
+            showlegend: true
+        }]
+        const layout1 = {
+            autosize: true,
+            title: "Pie Chart",
+            width: 500,
+            height: 500
+        }
+        Plotly.newPlot('pie', trace, layout1)
+
+        // //Create the bar chart
+        // const trace2 = [{
+        //     type: 'bar',
+        //     x: tweets.map(d => d.user),
+        //     y: tweets.map(d => d.tidy_tweets),
+        //     orientation: 'h'
+        // }]
+        // const layout2 = {
+        //     autosize: true,
+        //     title: "Tweets by User",
+        //     width: 1000,
+        //     height: 600,
+        //     yaxis: {
+        //         automargin: true
+        //       }
+        // }
+        // Plotly.newPlot('bar', trace2, layout2)
+
         // Complete the event handler function for the form
             function runEnter(tweets) {
                 tbody.html("");
@@ -44,7 +86,6 @@ function filterit(userSearch) {
                 });
             }
             runEnter(tweets);
-        //NEED Enter a dictionary for counting the number of tweets for each sentiment. 
 
         //Walks through the filtered tweets and counts how many times each word was used across all tweets.
         tweets.forEach(function (message, i, arr) {
@@ -56,6 +97,8 @@ function filterit(userSearch) {
         //Puts the results into a dictionary format that anychart can read to make the word cloud
         Object.entries(obj).forEach(function ([key, value]) {
             // console.log(`${key} ${value}`)
+            // key= key.toLowerCase();
+            // console.log(key);
             dict.push({
                 x: key,
                 value: value
@@ -64,13 +107,14 @@ function filterit(userSearch) {
         // d3.selectAll("#filters").on("change", getData);
         wordCloud(dict);
         
+        
     })
 }
 
 //Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
 function wordCloud (dict) {
     cloud.html("");
-    console.log(dict);
+    // console.log(dict);
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(dict);
     // set a chart title
@@ -86,8 +130,8 @@ function wordCloud (dict) {
     chart.draw();
 };
 
-// d3.selectAll("#filters").on("change", getData);
-d3.selectAll("#filters").on("click", getData);
+d3.selectAll("#filters").on("change", getData);
+// d3.selectAll("#filters").on("click", getData);
 
 // Execute a function when the user releases a key on the keyboard
 
