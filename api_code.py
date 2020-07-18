@@ -25,7 +25,7 @@ def getTweets(search_term):
                 lang="en").items(5)
 
     # Collect a list of tweets
-    
+
     users_locs = [[tweet.user.screen_name, re.sub(r'http\S+', '', tweet.text)] for tweet in tweets]
 
     tweet_text = pd.DataFrame(data=users_locs, columns=['user', 'tweet']) 
@@ -35,8 +35,12 @@ def getTweets(search_term):
     #remove short words
     tweet_text['tidy_tweet'] = tweet_text['tidy_tweet'].apply(lambda x: ' '.join([w for w in x.split() if len(w)>2]))
 
-    tweet_text.to_csv("tweet_stream.csv", encoding='utf-8', index=False)
+    return tweet_text
 
-    print("We're done processing the data!")
+    # tweet_text.to_csv("tweet_stream.csv", encoding='utf-8', index=False)
 
-getTweets(search_term)
+    # print("We're done processing the data!")
+
+df = getTweets(search_term)
+
+print(df)
