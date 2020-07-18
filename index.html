@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+  <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
@@ -57,18 +57,18 @@
             cupiditate similique voluptatibus in obcaecati delectus impedit voluptas exercitationem amet expedita quidem maxime vero voluptates error maiores?</p>
 
         </div>
-        <!-- <form> -->
+        <form>
           <div class="input-group" >
-            <input type="text" class="form-control"  id="filters" placeholder="Type in a hashtag to search for">
-              <button id="srchbtn" class="btn btn-default" type="button">
-                <i class="glyphicon glyphicon-search"></i>
-              </button>
-              <!-- <button onclick="return getData()" id="srchbtn" class="btn btn-default" type="submit">
+            <input name="variable" type="text" class="form-control"  id="filters" placeholder="Type in a hashtag to search for">
+              <!-- <button id="srchbtn" class="btn btn-default" type="button">
                 <i class="glyphicon glyphicon-search"></i>
               </button> -->
+              <button onclick="return getData()" id="filters" class="btn btn-default" type="button">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
             </input>
           </div>
-        <!-- </form> -->
+        </form>
 
         <div class="col-lg-4" id="positive_cloud" style="height: 750px;">
 

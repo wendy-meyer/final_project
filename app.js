@@ -8,7 +8,39 @@ filterit('data');
 
 
 function getData() {
+    // Prevent the page from refreshing
+    // d3.event.preventDefault();
+
     var userSearch = d3.selectAll("#filters").node().value;
+
+    //Testing the post method from Manny's comments
+    var inputElement = d3.select("#filters");
+    var inputValue = inputElement.property("value");
+    console.log("Input Value:");
+    console.log(inputValue);
+
+    // d3.json('https://jsonplaceholder.typicode.com/posts', {
+    //   method:"POST",
+    //   body: JSON.stringify({
+    //     title: 'Hello',
+    //     body: '_d3-fetch_ is it',
+    //     userId: 1,
+    //     friends: [2,3,4]
+    //   }),
+    //   headers: {
+    //     "Content-type": "application/json; charset=UTF-8"
+    //   }
+    // })
+    // .then(json => {
+    //  svg.append("text")
+    //   .text(JSON.stringify(json))
+    //   .attr("y", 200)
+    //   .attr("x", 120)
+    //   .attr("font-size", 16)
+    //   .attr("font-family", "monospace")
+    // });
+
+    //Handle case sensitivity
     var userSearch_lower = userSearch.toLowerCase();
     var userSearch_upper = userSearch.toUpperCase();
     var userSearch_Capital = userSearch.charAt(0).toUpperCase() + userSearch.slice(1)
@@ -20,7 +52,7 @@ function getData() {
 }
 
 function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital) {
-    Plotly.d3.csv("testing_data2.csv", (err, rows) => {
+    Plotly.d3.json(`/search/${userSearch}`, (err, rows) => {
         //Filters the tweets that contain the word the user put in the seach bar.
         var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true)||((r.tidy_tweet).includes(userSearch_upper) === true)||((r.tidy_tweet).includes(userSearch_lower) === true)||((r.tidy_tweet).includes(userSearch_Capital) === true));
         var positive_tweets = tweets.filter(function(tweet){
