@@ -1,5 +1,6 @@
 var tbody = d3.select("tbody");
-var cloud = d3.select("#cloud");
+var pos_cloud = d3.select("#positive_cloud");
+var neg_cloud = d3.select("#negative_cloud");
 var filters = d3.select("#filters");
 
 filterit('data');
@@ -50,7 +51,10 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             type: 'pie',
             values: Object.values(sentiments),
             labels: ["Neutral", "Positive", "Negative"],
-            showlegend: true
+            showlegend: true,
+            marker:{
+                colors:['lightgray', 'palegreen', 'lightcoral']
+            }
         }]
         const layout1 = {
             autosize: true,
@@ -93,12 +97,12 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             runEnter(tweets);
 
         //Walks through the filtered tweets and counts how many times each word was used across all tweets.
-        tweets.forEach(function (message, i, arr) {
-            var text = arr[i]['tidy_tweet']
-            text.split(" ").forEach(function (el, i, arr) {
-                obj[el] = obj[el] ? ++obj[el] : 1;
-            })
-        })
+        // tweets.forEach(function (message, i, arr) {
+        //     var text = arr[i]['tidy_tweet']
+        //     text.split(" ").forEach(function (el, i, arr) {
+        //         obj[el] = obj[el] ? ++obj[el] : 1;
+        //     })
+        // })
         positive_tweets.forEach(function (message, i, arr) {
             var text = arr[i]['tidy_tweet']
             text.split(" ").forEach(function (el, i, arr) {
@@ -112,32 +116,34 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             })
         })
         //Puts the results into a dictionary format that anychart can read to make the word cloud
-        Object.entries(obj).forEach(function ([key, value]) {
-            dict.push({
-                x: key,
-                value: value
-            })
-        })
+        // Object.entries(obj).forEach(function ([key, value]) {
+        //     dict.push({
+        //         x: key,
+        //         value: value
+        //     })
+        // })
+        //positive version
         Object.entries(pos_obj).forEach(function ([key, value]) {
             pos_dict.push({
                 x: key,
                 value: value
             })
         })
+        //negative version
         Object.entries(neg_obj).forEach(function ([key, value]) {
             neg_dict.push({
                 x: key,
                 value: value
             })
         })
-        wordCloud(pos_dict, "positive_cloud", "Most common works within Positive Tweets","green");
-        wordCloud(neg_dict, "negative_cloud", "Most common works within Negative Tweets", "red");
+        wordCloud(pos_dict, "positive_cloud", "Most common works within Positive Tweets","green", pos_cloud);
+        wordCloud(neg_dict, "negative_cloud", "Most common works within Negative Tweets", "red", neg_cloud);
     })
 }
 
 //Makes the word cloud, NEED to add in a condition for the color based on the sentiment type (waiting on csv)
-function wordCloud (dict, cloudtype, title, color) {
-    cloud.html("");
+function wordCloud (dict, cloudtype, title, color, id) {
+    id.html("");
 
     // console.log(dict);
     // create a tag (word) cloud chart
