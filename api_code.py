@@ -25,7 +25,8 @@ def getTweets(search_term):
                 lang="en").items(5)
 
     # Collect a list of tweets
-    users_locs = [[tweet.user.screen_name, tweet.text] for tweet in tweets]
+    
+    users_locs = [[tweet.user.screen_name, re.sub(r'http\S+', '', tweet.text)] for tweet in tweets]
 
     tweet_text = pd.DataFrame(data=users_locs, columns=['user', 'tweet']) 
     
