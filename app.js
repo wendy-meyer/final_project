@@ -53,7 +53,7 @@ function getData() {
 
 function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital) {
     // Plotly.d3.json(`/search/${userSearch}`, (err, rows) => {
-    Plotly.d3.csv("training_datav2.csv", (err, rows) => {
+    Plotly.d3.csv("testing_data2.csv", (err, rows) => {
         //Filters the tweets that contain the word the user put in the seach bar.
         var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true)||((r.tidy_tweet).includes(userSearch_upper) === true)||((r.tidy_tweet).includes(userSearch_lower) === true)||((r.tidy_tweet).includes(userSearch_Capital) === true));
         var positive_tweets = tweets.filter(function(tweet){
