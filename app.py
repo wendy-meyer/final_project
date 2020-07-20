@@ -3,27 +3,25 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from api_code import getTweets
 import pandas as pd
+import requests
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
-
-class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<task %r>' % self.id
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/search/<input>')
-    def grab_input(input):
-        df = getTweets(input)
+def grab_input(input):
+    df = getTweets(input)
+    data = df['tidy_tweet'][:10].to_json(orient="split")
+    response = requests.post("http://127.0.0.1:5000/invocations", 
+                         data=data,
+                        headers={"Content-Type": "application/json"})
+    predictions = pd.Series(response.json)
+    df['sentiment'] = predictions
+    return df.to_json()
+
 # def my_form_post():
 #     variable = request.form['variable']
 #     return variable
