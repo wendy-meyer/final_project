@@ -20,7 +20,7 @@ def traindata():
 def grab_input(input):
     df = getTweets(input)
     df = vaderize(df)
-    return df.to_json(orient="index")
+    return df.to_json(orient="records")
 
 if __name__ == "__main__":
     app.run(debug=True)

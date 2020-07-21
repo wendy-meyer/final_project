@@ -12,49 +12,13 @@ function getData() {
 
     var userSearch = d3.selectAll("#filters").node().value;
 
-    //Testing the post method from Manny's comments
-    var inputElement = d3.select("#filters");
-    var inputValue = inputElement.property("value");
-    console.log("Input Value:");
-    console.log(inputValue);
-
-    // d3.json('https://jsonplaceholder.typicode.com/posts', {
-    //   method:"POST",
-    //   body: JSON.stringify({
-    //     title: 'Hello',
-    //     body: '_d3-fetch_ is it',
-    //     userId: 1,
-    //     friends: [2,3,4]
-    //   }),
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8"
-    //   }
-    // })
-    // .then(json => {
-    //  svg.append("text")
-    //   .text(JSON.stringify(json))
-    //   .attr("y", 200)
-    //   .attr("x", 120)
-    //   .attr("font-size", 16)
-    //   .attr("font-family", "monospace")
-    // });
-
-    //Handle case sensitivity
-    var userSearch_lower = userSearch.toLowerCase();
-    var userSearch_upper = userSearch.toUpperCase();
-    var userSearch_Capital = userSearch.charAt(0).toUpperCase() + userSearch.slice(1)
-
-    console.log('Running getData');
-    console.log(userSearch);
-    filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital);
+    filterit(userSearch);
     
 }
 
 function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Capital) {
-    Plotly.d3.json(`/search/${userSearch}`, (err, rows) => {
-    // Plotly.d3.csv("./testing_data2.csv", (err, rows) => {
-        //Filters the tweets that contain the word the user put in the seach bar.
-        var tweets = rows.filter(r => ((r.tidy_tweet).includes(userSearch) === true)||((r.tidy_tweet).includes(userSearch_upper) === true)||((r.tidy_tweet).includes(userSearch_lower) === true)||((r.tidy_tweet).includes(userSearch_Capital) === true));
+    Plotly.d3.json(`/search/${userSearch}`, (err, tweets) => {
+
         var positive_tweets = tweets.filter(function(tweet){
             return tweet.sentiment ==1;
         });
@@ -69,15 +33,12 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         var pos_obj = {};
         var neg_obj = {};
 
-        console.log(tweets);
 
         //Create a dictionary to count the number of sentiments for the pie chart.
-        // var sentiments = {"-1":0,"0":0,"1":0}
         var sentiments = {"0":0,"1":0}
         tweets.forEach(function(object){
             sentiments[object.sentiment.toString()] += 1
         })
-        console.log(sentiments);
 
         //Create the pie chart
         const trace = [{
@@ -97,23 +58,6 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
         }
         Plotly.newPlot('pie', trace, layout1)
 
-        // //Create the bar chart
-        // const trace2 = [{
-        //     type: 'bar',
-        //     x: tweets.map(d => d.user),
-        //     y: tweets.map(d => d.tidy_tweets),
-        //     orientation: 'h'
-        // }]
-        // const layout2 = {
-        //     autosize: true,
-        //     title: "Tweets by User",
-        //     width: 1000,
-        //     height: 600,
-        //     yaxis: {
-        //         automargin: true
-        //       }
-        // }
-        // Plotly.newPlot('bar', trace2, layout2)
 
         // TABLE Complete the event handler function for the form
             function runEnter(tweets) {
@@ -122,13 +66,10 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
                 tweets.forEach((tweet) => {
                     var row = tbody.append("tr");
                     Object.entries(tweet).forEach(([key, value]) => {
-                        if ((key === 'user')||(key === ('tweet_text'))||(key === 'sentiment')){
+                        if ((key === 'user')||(key === ('tweet'))||(key === 'sentiment')){
                             var cell = row.append("td");
                             cell.text(value);
                         }
-                    //     console.log(key);
-                    // var cell = row.append("td");
-                    // cell.text(value);
                     });
                 });
             }
@@ -149,14 +90,6 @@ function filterit(userSearch, userSearch_lower, userSearch_upper, userSearch_Cap
             })
         })
         //Puts the results into a dictionary format that anychart can read to make the word cloud
-
-        ////Version with all the sentiments in one.
-        // Object.entries(obj).forEach(function ([key, value]) {
-        //     dict.push({
-        //         x: key,
-        //         value: value
-        //     })
-        // })
 
         //positive version
         Object.entries(pos_obj).forEach(function ([key, value]) {
@@ -196,10 +129,6 @@ function wordCloud (dict, cloudtype, title, color1, color2, id) {
 
     // set the color scale as the color scale of the chart
     chart.colorScale(customColorScale);
-
-    // add a color range
-    // chart.colorRange().enabled(true);
-    // chart.normal().fill(color);
     chart.hovered().fill("#93bfec");
     chart.selected().fill("#1f66ad");
     chart.normal().fontWeight(600);
@@ -207,17 +136,7 @@ function wordCloud (dict, cloudtype, title, color1, color2, id) {
 };
 
 d3.selectAll("#filters").on("change", getData);
-// d3.selectAll("#filters").on("click", getData);
 
-// Execute a function when the user releases a key on the keyboard
-// input.addEventListener("keyup", function(event){
-//     if (event.keyCode === 13){
-//         event.preventDefault();
-//         document.getElementById("srchbtn");
-//         console.log('enter pressed');
-//         getData()
-//     }
-// });
 document.addEventListener('keypress', event => {
     if (event.keyCode == 13){
         console.log('enter pressed')
