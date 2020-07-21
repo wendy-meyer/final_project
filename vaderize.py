@@ -3,6 +3,7 @@ import tweepy as tw
 import pandas as pd
 import json
 import time
+import operator
 import csv
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -13,7 +14,7 @@ def vaderize(df):
     return df
 
 def getSentiment(sentence, analyzer):
-    score = analyser.polarity_scores(sentence)
+    score = analyzer.polarity_scores(sentence)
     value = max(score.items(), key=operator.itemgetter(1))[0]
     returnValue = 0
     if value == "pos":
