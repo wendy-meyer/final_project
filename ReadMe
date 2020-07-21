@@ -6,7 +6,6 @@ Dataset:
 
 Dataset Definitions:
     Training Data
-        target - polarity of tweet, 0 = negative and 4 = positive
         id - unique id of the tweet from Twitter
         date - timestamp when the tweet was posted
         flag - query flag, all set to NO_QUERY
@@ -35,16 +34,16 @@ as a positive sentiment, whereas sad face was labeled as negative.
 Model Use: Using ML for classification of the tweets whether they are positive or negative.
 
 User Interaction: 
-    1. User enters website, and enters a hashtag to search
+    1. User enters website, and enters a word to search
     2. Taking in the user input, an API call will be made to pull a set amount of tweets from that seach.
     3. Using the ML model to classify each tweet and showcase visual charts on the website for the user.
     
-Ideas for the visual charts include, but are not limited to:
-    1. Demographic data on positive/negative tweets (location of tweets, age range of positive/negative).
-    2. Tableau dashboards containing some summary statistics on the training set used.
-    3. Comparisons of positive vs. negative hashtags.
+Visual charts included:
+    1. Pie chart break out of how the sentiments are distributed amoung the tweets.
+    2. Tableau dashboard showing Training data in word clouds, bar chart by top users, and table summary.
+    3. Word Cloud Comparisons of positive vs. negative tweets.
     
 Pipeline:
     1. Build a classification model on Databricks (our training/test data will live in a bucket on S3).
     2. Build the website on Flask and host on Heroku. This will support the user lookup.
-    3. Create visualizations dynamically using plotly or d3. Maybe have Tableau for the training data since that's static.
+    3. Create visualizations dynamically using plotly or d3. Tableau for the training data since that's static.
