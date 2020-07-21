@@ -22,7 +22,7 @@ def getTweets(search_term):
     # Collect tweets
     tweets = tw.Cursor(api.search,
                 q=search_term,
-                lang="en").items(5)
+                lang="en").items(10)
 
     # Collect a list of tweets
 
