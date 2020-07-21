@@ -4,7 +4,7 @@ import pandas as pd
 import time
 import csv
 import re
-from nltk.tokenize import TweetTokenizer
+import os
 
 consumer_key = config.consumer_key
 consumer_secret_key = config.consumer_key_secret
@@ -43,4 +43,4 @@ def getTweets(search_term):
 
 df = getTweets(search_term)
 
-print(df)
+df.to_csv('H:\\DataViz_Work\\Homework\\Final_Project\\final_project\\tweets_from_api.csv', index=False)
