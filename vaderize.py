@@ -8,18 +8,14 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 def vaderize(df):
     analyzer = SentimentIntensityAnalyzer()
-    sentiment = df['tidy_tweet'].apply(lambda x: analyzer.polarity_scores(x))
-    df = pd.concat([df,sentiment.apply(pd.Series)],1)
-    score= df['compound']
-    df['score'] = df['compound'].apply(getVader)
+    df['tidy_tweet'] = df['tidy_tweet'].astype(str)
+    df['sentiment'] = df['tidy_tweet'].apply(lambda x: getSentiment(x, analyzer))
     return df
 
-def getVader(score):
-
-    if score >= 0.05 : 
-        result = "positive"
-    elif score <= - 0.05 : 
-        result = "negative"
-    else : 
-        result = "neutral"
-    return(result)
+def getSentiment(sentence, analyzer):
+    score = analyser.polarity_scores(sentence)
+    value = max(score.items(), key=operator.itemgetter(1))[0]
+    returnValue = 0
+    if value == "pos":
+        returnValue = 1
+    return returnValue

@@ -41,6 +41,6 @@ def getTweets(search_term):
 
     # print("We're done processing the data!")
 
-df = getTweets(search_term)
+#df = getTweets(search_term)
 
-df.to_csv('H:\\DataViz_Work\\Homework\\Final_Project\\final_project\\tweets_from_api.csv', index=False)
+#df.to_csv('H:\\DataViz_Work\\Homework\\Final_Project\\final_project\\tweets_from_api.csv', index=False)
