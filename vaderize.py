@@ -15,8 +15,9 @@ def vaderize(df):
 
 def getSentiment(sentence, analyzer):
     score = analyzer.polarity_scores(sentence)
-    value = max(score.items(), key=operator.itemgetter(1))[0]
+    pos = score['pos']
+    neg = score['neg']
     returnValue = 0
-    if value == "pos":
+    if pos >= neg:
         returnValue = 1
     return returnValue
